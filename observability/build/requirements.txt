@@ -1,3 +1,7 @@
 flask
 prometheus-flask-exporter
 python-logging-loki
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-instrumentation-flask
+opentelemetry-exporter-jaeger
