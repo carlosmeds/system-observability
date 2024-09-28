@@ -41,6 +41,7 @@ services:
       - '--collector.systemd'
       - '--collector.processes'
     restart: unless-stopped 
+    privileged: true
     networks:
        observability:
 
@@ -62,7 +63,7 @@ services:
        observability:
 
   grafana:
-    image: grafana/grafana:10.3.1
+    image: grafana/grafana:10.2.5
     ports:
       - 3000:3000
 
@@ -75,6 +76,25 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
       - GF_USERS_ALLOW_SIGN_UP=false
     restart: unless-stopped
+    networks:
+       observability:
+  
+  loki:
+    image: grafana/loki:2.2.1
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yml
+    volumes:
+      - ./loki/config:/etc/loki
+    networks:
+       observability:
+
+  promtail:
+    image: grafana/promtail:2.2.1
+    volumes:
+      - /var/log:/var/log
+      - ./promtail/config:/etc/promtail
+    command: -config.file=/etc/promtail/promtail-config.yml
     networks:
        observability:
 
