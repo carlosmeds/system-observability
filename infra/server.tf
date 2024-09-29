@@ -1,7 +1,7 @@
 resource "aws_launch_configuration" "lab" {
   name_prefix           = "terraform-aws-asg-"
   image_id              = data.aws_ami.ubuntu.id
-  instance_type         = "t3.medium"
+  instance_type         = "t3.small"
   user_data             = "${file("templates/server.yaml")}"
   security_groups       = [aws_security_group.asg_lab.id]
   key_name              = "vockey"
