@@ -20,7 +20,7 @@ def roll_dice():
 
 @app.route("/fail")
 def fail():
-    app.logger.info("[ROUTE] - called /failed")
+    app.logger.info("[ROUTE] - called /fail")
     1/0
     return 'fail'
 

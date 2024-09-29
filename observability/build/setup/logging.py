@@ -20,3 +20,16 @@ def configure_logging(app):
     if not any(isinstance(handler, LokiHandler) for handler in app.logger.handlers):
         app.logger.addHandler(loki_handler)
 
+    class LoggingContextFilter(logging.Filter):
+        def filter(self, record):
+            span = get_current_span()
+            if not span or not span.get_span_context().is_valid:
+                tracer = get_tracer(__name__)
+                with tracer.start_as_current_span("auto-generated-span"):
+                    span = get_current_span()
+            record.trace_id = format(span.get_span_context().trace_id, '032x')
+            record.span_id = format(span.get_span_context().span_id, '016x')
+            return True
+
+    context_filter = LoggingContextFilter()
+    app.logger.addFilter(context_filter)
