@@ -13,7 +13,7 @@ def configure_logging(app):
     formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s - trace_id=%(trace_id)s - span_id=%(span_id)s')
     loki_handler.setFormatter(formatter)
 
-    app.logger.setLevel(logging.INFO)
+    app.logger.setLevel(logging.DEBUG)
 
     log_request_middleware(app)
 
