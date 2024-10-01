@@ -1,10 +1,37 @@
+### IAM
+resource "aws_iam_role" "lab_role" {
+  name = "LabRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_instance_profile" "lab_instance_profile" {
+  name = "LabInstanceProfile"
+  role = aws_iam_role.lab_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "lab_role_policy_attachment" {
+  role       = aws_iam_role.lab_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+}
+
 resource "aws_launch_configuration" "lab" {
   name_prefix           = "terraform-aws-asg-"
   image_id              = data.aws_ami.ubuntu.id
   instance_type         = "t3.small"
   user_data             = "${file("templates/server.yaml")}"
   security_groups       = [aws_security_group.asg_lab.id]
-  key_name              = "vockey"
   iam_instance_profile  = "LabInstanceProfile"
 
   lifecycle {
