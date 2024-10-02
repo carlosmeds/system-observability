@@ -21,6 +21,14 @@ services:
     ports:
       - 9090:9090
     restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.min-block-duration=5m'
+      - '--storage.tsdb.max-block-duration=5m'
+      - '--web.enable-lifecycle'
+    depends_on:
+      - thanos-sidecar
     networks:
        observability:
 
@@ -105,6 +113,51 @@ services:
       - "16686:16686"
     networks:
       - observability
+
+  thanos-sidecar:
+    image: thanosio/thanos:v0.23.0
+    command:
+      - sidecar
+      - --tsdb.path=/prometheus
+      - --objstore.config-file=/etc/thanos/s3.yml
+      - --prometheus.url=http://prometheus:9090
+      - --grpc-address=0.0.0.0:10911 
+      - --http-address=0.0.0.0:10912 
+    volumes:
+      - ./thanos/s3.yml:/etc/thanos/s3.yml
+      - prometheus_data:/prometheus
+    networks:
+      - observability
+    ports:
+      - "10911:10911"  # gRPC
+      - "10912:10912"  # HTTP
+
+  thanos-store:
+    image: thanosio/thanos:v0.23.0
+    command:
+      - store
+      - --objstore.config-file=/etc/thanos/s3.yml
+      - --grpc-address=0.0.0.0:10921
+      - --http-address=0.0.0.0:10922
+    volumes:
+      - ./thanos/s3.yml:/etc/thanos/s3.yml
+    networks:
+      - observability
+    ports:
+      - "10921:10921"  # gRPC
+      - "10922:10922"  # HTTP
+
+  thanos-query:
+    image: thanosio/thanos:v0.23.0
+    command:
+      - query
+      - --store=thanos-store:10921
+    ports:
+      - "10902:10902"
+    networks:
+      - observability
+    depends_on:
+      - thanos-store
 
 networks:
   observability:

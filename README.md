@@ -29,14 +29,24 @@ cd system-observability
 
 2. Configure the AWS environment variables using [aws configure](https://docs.aws.amazon.com/cli/latest/reference/configure/)
 
-3. Start the Docker services
+```bash
+aws configure
+```
+
+3. Rename the file [`.env.example`](./.env.example) to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+4. Start the Docker services
 
 ```sh
 cd observability
 docker compose up --build -d
 ```
 
-4. Initialize and apply the Terraform configurations (if you want to use AWS):
+5. Initialize and apply the Terraform configurations (if you want to use AWS):
 
 ```sh
 cd ../infra
