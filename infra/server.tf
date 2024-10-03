@@ -27,12 +27,16 @@ resource "aws_iam_role_policy_attachment" "lab_role_policy_attachment" {
 }
 
 resource "aws_launch_configuration" "lab" {
-  name_prefix           = "terraform-aws-asg-"
-  image_id              = data.aws_ami.ubuntu.id
-  instance_type         = "t3.small"
-  user_data             = "${file("templates/server.yaml")}"
-  security_groups       = [aws_security_group.asg_lab.id]
-  iam_instance_profile  = "LabInstanceProfile"
+  name_prefix   = "terraform-aws-asg-"
+  image_id      = data.aws_ami.ubuntu.id
+  instance_type = "t3.small"
+  user_data = templatefile("templates/server.yaml", {
+    aws_access_key = var.aws_access_key
+    aws_secret_key = var.aws_secret_key
+    bucket_name    = var.bucket_name
+  })
+  security_groups      = [aws_security_group.asg_lab.id]
+  iam_instance_profile = "LabInstanceProfile"
 
   lifecycle {
     create_before_destroy = true
@@ -47,13 +51,13 @@ resource "aws_autoscaling_group" "lab" {
   launch_configuration = aws_launch_configuration.lab.name
   vpc_zone_identifier  = module.vpc.public_subnets
 
-  health_check_type    = "ELB"
+  health_check_type = "ELB"
 
   tag {
     key                 = "Name"
     value               = "server"
     propagate_at_launch = true
-  }  
+  }
 }
 
 ### Application Server ALB

@@ -126,6 +126,10 @@ services:
     volumes:
       - ./thanos/s3.yml:/etc/thanos/s3.yml
       - prometheus_data:/prometheus
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - BUCKET_NAME
     networks:
       - observability
     ports:
@@ -141,6 +145,10 @@ services:
       - --http-address=0.0.0.0:10922
     volumes:
       - ./thanos/s3.yml:/etc/thanos/s3.yml
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - BUCKET_NAME
     networks:
       - observability
     ports:

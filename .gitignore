@@ -5,6 +5,7 @@
 .terraform.lock.hcl
 modules.json
 terraform-provider-aws_*
+terraform.tfvars
 
 # Build files
 .env

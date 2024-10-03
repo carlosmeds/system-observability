@@ -3,6 +3,14 @@
 
 resource "aws_security_group" "asg_lab" {
   name = "asg-lab"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -41,6 +49,46 @@ resource "aws_security_group" "asg_lab" {
   ingress {
     from_port   = 8080
     to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
+# Thanos Sidecar gRPC (port 10911)
+  ingress {
+    from_port   = 10911
+    to_port     = 10911
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Thanos Sidecar HTTP (port 10912)
+  ingress {
+    from_port   = 10912
+    to_port     = 10912
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Thanos Store gRPC (port 10921)
+  ingress {
+    from_port   = 10921
+    to_port     = 10921
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Thanos Store HTTP (port 10922)
+  ingress {
+    from_port   = 10922
+    to_port     = 10922
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Thanos Query HTTP (port 10902)
+  ingress {
+    from_port   = 10902
+    to_port     = 10902
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

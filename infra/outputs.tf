@@ -9,3 +9,8 @@ output "Metrics" {
 output "Grafana" {
   value = "http://${aws_lb.grafana.dns_name}"
 }
+
+output "s3_bucket_name" {
+  value       = var.bucket_name
+}
+

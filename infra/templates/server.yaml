@@ -15,4 +15,8 @@ runcmd:
   - chmod +x /usr/local/bin/docker-compose
   - git clone  --branch main https://github.com/carlosmeds/system-observability /home/ubuntu/system-observability
   - chown -R ubuntu:ubuntu /home/ubuntu/system-observability
+  - echo "AWS_ACCESS_KEY_ID=${aws_access_key}" >> /home/ubuntu/system-observability/observability/.env
+  - echo "AWS_SECRET_ACCESS_KEY=${aws_secret_key}" >> /home/ubuntu/system-observability/observability/.env
+  - echo "BUCKET_NAME=${bucket_name}" >> /home/ubuntu/system-observability/observability/.env
+  - chown ubuntu:ubuntu /home/ubuntu/system-observability/observability/.env
   - sudo /usr/local/bin/docker-compose -f /home/ubuntu/system-observability/observability/compose.yml up -d
