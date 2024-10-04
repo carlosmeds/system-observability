@@ -21,8 +21,8 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.min-block-duration=5m'
-      - '--storage.tsdb.max-block-duration=5m'
+      - '--storage.tsdb.min-block-duration=2h'
+      - '--storage.tsdb.max-block-duration=2h'
       - '--web.enable-lifecycle'
     depends_on:
       - thanos-sidecar
