@@ -1,7 +1,4 @@
-version: '3.8'
-  
 services:
-
   server:
     image: server
     build:
@@ -127,9 +124,9 @@ services:
       - ./thanos/s3.yml:/etc/thanos/s3.yml
       - prometheus_data:/prometheus
     environment:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - BUCKET_NAME
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - BUCKET_NAME=${BUCKET_NAME}
     networks:
       - observability
     ports:
@@ -146,9 +143,9 @@ services:
     volumes:
       - ./thanos/s3.yml:/etc/thanos/s3.yml
     environment:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - BUCKET_NAME
+        - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+        - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+        - BUCKET_NAME=${BUCKET_NAME}
     networks:
       - observability
     ports:

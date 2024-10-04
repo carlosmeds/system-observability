@@ -9,3 +9,4 @@ terraform.tfvars
 
 # Build files
 .env
+s3.yml

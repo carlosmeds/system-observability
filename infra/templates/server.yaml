@@ -19,4 +19,16 @@ runcmd:
   - echo "AWS_SECRET_ACCESS_KEY=${aws_secret_key}" >> /home/ubuntu/system-observability/observability/.env
   - echo "BUCKET_NAME=${bucket_name}" >> /home/ubuntu/system-observability/observability/.env
   - chown ubuntu:ubuntu /home/ubuntu/system-observability/observability/.env
+  - |
+    cat <<EOF > /home/ubuntu/system-observability/observability/thanos/s3.yml
+    type: S3
+    config:
+      bucket: "${bucket_name}"
+      endpoint: "s3.amazonaws.com"
+      region: "us-east-1"
+      access_key: "${aws_access_key}"
+      secret_key: "${aws_secret_key}"
+      insecure: false
+    EOF
+  - chown ubuntu:ubuntu /home/ubuntu/system-observability/observability/thanos/s3.yml
   - sudo /usr/local/bin/docker-compose -f /home/ubuntu/system-observability/observability/compose.yml up -d
