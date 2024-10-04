@@ -1,6 +1,6 @@
 # System Observability
 
-This project implements observability in a simple Python application, using tools such as Grafana, Prometheus, Loki, and Jaeger.
+This project implements observability in a simple Python application, using Terraform, Grafana, Prometheus, Loki, Jaeger and Thanos.
 
 ## 🚀 Getting Started
 
@@ -46,7 +46,9 @@ cd observability
 docker compose up --build -d
 ```
 
-5. Initialize and apply the Terraform configurations (if you want to use AWS):
+5. Create file terraform.tfvars (if you want to use AWS)
+
+6. Initialize and apply the Terraform configurations:
 
 ```sh
 cd ../infra
@@ -61,3 +63,5 @@ terraform apply
 * [Grafana](https://grafana.com/) - Analysis and monitoring platform
 * [Loki](https://grafana.com/oss/loki/) - Logging system
 * [Jaeger](https://www.jaegertracing.io/) - Distributed tracing system
+* [Terraform](https://www.terraform.io/) - Infra As Code
+* [Thanos](https://thanos.io/) - Prometheus setup 
