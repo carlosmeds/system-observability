@@ -16,6 +16,7 @@ What do you need to install the software
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Terraform](https://www.terraform.io/downloads.html)
 - [AWS CLI](https://aws.amazon.com/cli/) configured with your credentials
+- [S3](https://docs.aws.amazon.com/s3/) if you want to use Thanos, please create a bucket
 
 
 ### 📦 Deployment
